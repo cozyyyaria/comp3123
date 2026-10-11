@@ -1,0 +1,22 @@
+{
+  "name": "101346000_comp3123-exec05",
+  "version": "1.0.0",
+  "description": "COMP3123 Lab Exercise 05 - Express.js Basics with Routing",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "routing",
+    "comp3123",
+    "lab05"
+  ],
+  "author": "Ariana Cruz - 101346000",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
