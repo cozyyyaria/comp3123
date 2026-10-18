@@ -1,0 +1,83 @@
+# ============================================================
+# GitHub Actions Workflow - CI/CD Pipeline
+# ============================================================
+# 
+# WHAT IS THIS FILE?
+# This is a "workflow" file. It tells GitHub:
+# "Every time someone pushes code, automatically do these steps"
+#
+# WHY IS IT USEFUL?
+# Instead of manually building and deploying your website every
+# time you make a change, GitHub does it FOR YOU automatically.
+# This is called CI/CD:
+#   CI = Continuous Integration (auto-test your code)
+#   CD = Continuous Deployment (auto-deploy your code)
+#
+# WHERE DOES THIS FILE GO?
+# It MUST be in: .github/workflows/ folder in your repo
+# GitHub automatically detects any .yml files in this folder
+# ============================================================
+
+name: Build and Deploy to GitHub Pages  # Name shown in GitHub's "Actions" tab
+
+# WHEN should this workflow run?
+on:
+  push:
+    branches:
+      - main  # Run every time code is pushed to the "main" branch
+
+# WHAT permissions does this workflow need?
+permissions:
+  contents: read       # Permission to read your code
+  pages: write         # Permission to publish to GitHub Pages
+  id-token: write      # Required for GitHub Pages deployment
+
+# WHAT steps should it perform?
+jobs:
+  # --- JOB 1: Build the project ---
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest  # Use a Linux server provided by GitHub (free!)
+
+    steps:
+      # Step 1: Download your code onto the server
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Install Node.js on the server
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Step 3: Install dependencies (like gh-pages)
+      - name: Install dependencies
+        working-directory: ./101346000_COMP3123-exec06
+        run: npm install
+
+      # Step 4: Run the build script (copies public/ -> build/)
+      - name: Build project
+        working-directory: ./101346000_COMP3123-exec06
+        run: npm run build
+
+      # Step 5: Upload the built files so the deploy job can use them
+      - name: Upload build artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./101346000_COMP3123-exec06/build
+
+  # --- JOB 2: Deploy to GitHub Pages ---
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build  # Wait for the build job to finish first
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+

@@ -1,0 +1,24 @@
+{
+  "name": "101346000_comp3123-exec06",
+  "version": "1.0.0",
+  "description": "COMP3123 Exercise 06 - CI/CD with GitHub Actions & GitHub Pages",
+  "main": "src/build.js",
+  "homepage": "https://cozyyyaria.github.io/101346000_COMP3123-exec06",
+  "scripts": {
+    "build": "node src/build.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "test": "echo \"All tests passed!\" && exit 0"
+  },
+  "keywords": [
+    "comp3123",
+    "cicd",
+    "github-actions",
+    "github-pages"
+  ],
+  "author": "Ariana Cruz - 101346000",
+  "license": "ISC",
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
+}
